@@ -9,6 +9,7 @@
     "json-server": "^0.17.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.36.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
@@ -17,7 +18,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "node ./test_server/test.server.js",
+    "server": "nodemon ./test_server/test.server.js",
     "onlyFileServer": "json-server --watch ./test_server/db.json --port 3737"
   },
   "eslintConfig": {
@@ -37,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
