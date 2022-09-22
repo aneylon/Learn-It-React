@@ -24,6 +24,9 @@ server.post("/verify", (req, res) => {
       return;
   }
 });
+server.get("/things", (req, res) => {
+  res.json({ message: "thing are a feets" });
+});
 
 server.use(router);
 server.listen(port, () => {

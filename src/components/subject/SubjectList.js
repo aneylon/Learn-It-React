@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const SubjectList = () => {
-  const [subjects, setSubjects] = useState();
+  const [subjects, setSubjects] = useState([]);
   function GetSubjects() {
     console.log("getting subjects");
     fetch("http://localhost:3737/subjects")
