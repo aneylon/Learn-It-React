@@ -1,10 +1,12 @@
 import "./App.css";
+import SubjectList from "./components/subject/SubjectList";
 import Todo from "./components/todo/todo";
 
 function App() {
   return (
     <div className="App">
-      <Todo />
+      <SubjectList />
+      {/* <Todo /> */}
     </div>
   );
 }

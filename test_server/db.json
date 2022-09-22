@@ -5,6 +5,33 @@
     { "title": "title three", "subTitle": "subtitle three", "id": 3 }
   ],
 
+  "lessons": [
+    {
+      "title": "lesson one",
+      "subTitle": "lesson subtitle one",
+      "id": 1,
+      "subjectId": 1
+    },
+    {
+      "title": "lesson two",
+      "subTitle": "lesson subtitle two",
+      "id": 2,
+      "subjectId": 2
+    },
+    {
+      "title": "lesson three",
+      "subTitle": "lesson subtitle three",
+      "id": 3,
+      "subjectId": 2
+    },
+    {
+      "title": "lesson four",
+      "subTitle": "lesson subtitle four",
+      "id": 4,
+      "subjectId": 3
+    }
+  ],
+
   "toDos": [
     { "id": 1, "text": "stuff", "completed": false },
     { "id": 2, "text": "things", "completed": false },
