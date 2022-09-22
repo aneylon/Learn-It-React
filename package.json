@@ -17,7 +17,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "testServer": "json-server --watch ./test_server/db.json --port 3737"
+    "server": "node ./test_server/test.server.js",
+    "onlyFileServer": "json-server --watch ./test_server/db.json --port 3737"
   },
   "eslintConfig": {
     "extends": [
