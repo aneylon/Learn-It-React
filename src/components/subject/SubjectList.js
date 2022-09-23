@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-
+const apiUrl = process.env.REACT_APP_API;
 const SubjectList = () => {
   const [subjects, setSubjects] = useState([]);
   function GetSubjects() {
     console.log("getting subjects");
-    fetch("http://localhost:3737/subjects")
+    fetch(`${apiUrl}/subjects`)
       .then((response) => {
         console.log(response);
         return response.json();
