@@ -2,6 +2,15 @@
 
 React front end for Learn It API.
 
+# Setting up locally
+
+- run `npm i` to install dependencies
+- Add a .env file to the root of the application with the following settings
+
+```
+REACT_APP_API = 'http://localhost:3737'
+```
+
 # Running locally
 
 `npm start`
