@@ -15,16 +15,20 @@ const SubjectList = () => {
       })
       .catch((error) => console.error("Error fetching subjects : ", error));
   }
+  function SelectSubject(subjectId) {
+    console.log("subject selected", subjectId);
+    console.log("show or hide lessons");
+  }
   useEffect(() => {
     GetSubjects();
   }, []);
   return (
     <div>
-      {subjects.length && (
+      {subjects.length > 0 && (
         <ul>
           {subjects.map((subject) => {
             return (
-              <li key={subject.id}>
+              <li key={subject.id} onClick={() => SelectSubject(subject.id)}>
                 <span title={subject.subTitle}>{subject.title}</span>
               </li>
             );
