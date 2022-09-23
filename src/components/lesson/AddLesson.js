@@ -3,19 +3,15 @@ const apiUrl = process.env.REACT_APP_API;
 const AddLesson = () => {
   const { register, handleSubmit } = useForm();
   function AddNewLesson(data) {
-    console.log("adding new lesson", data);
     fetch(`${apiUrl}/lessons`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
       .then((response) => {
-        console.log(response);
         return response.json();
       })
-      .then((responseData) => {
-        console.log(responseData);
-      })
+      .then((responseData) => {})
       .catch((error) => console.error(error));
   }
   return (

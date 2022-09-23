@@ -7,7 +7,6 @@ const ToDo = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setToDos(data);
       })
       .catch((error) => console.error("Error fetching todos : ", error));

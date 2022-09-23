@@ -3,8 +3,6 @@ const apiUrl = process.env.REACT_APP_API;
 const AddSubject = () => {
   const { register, handleSubmit } = useForm();
   const AddNewSubject = async (data) => {
-    console.log("data to add: ", data);
-    console.log("stringified: ", JSON.stringify(data));
     const response = await fetch(`${apiUrl}/subjects`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

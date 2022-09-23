@@ -1,6 +1,6 @@
 # Learn It React
 
-React front end for Learn It API.
+React front end for Learn It API
 
 # Setting up locally
 
@@ -8,7 +8,8 @@ React front end for Learn It API.
 - Add a .env file to the root of the application with the following settings
 
 ```
-REACT_APP_API = 'http://localhost:3737'
+REACT_APP_API = 'http://localhost:3737' # or where ever your development server is running
+PORT = 4242 # If you want to run the front end on a different port besides the default
 ```
 
 # Running locally
@@ -35,7 +36,7 @@ REACT_APP_API = 'http://localhost:3737'
 ## Add and set up
 
 - [ ] Prettier
-- [ ] Typescript
+- [ ] Typescript (or Flow?)
 - [ ] MUI
 - [ ] Json-Server
 - [ ] Tests
