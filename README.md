@@ -42,3 +42,4 @@ PORT = 4242 # If you want to run the front end on a different port besides the d
 - [ ] Tests
 - [ ] Hook Form
 - [ ] Cypress
+- [ ] Error handling

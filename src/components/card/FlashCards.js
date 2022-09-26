@@ -12,10 +12,10 @@ const FlashCards = ({ id }) => {
         return response.json();
       })
       .then((data) => {
-        setCards(data);
+        setCards(ShuffleCards(data));
         console.log(data);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error("Error getting card set : ", error));
   }
   function NextCard(result) {
     switch (result) {
@@ -33,13 +33,21 @@ const FlashCards = ({ id }) => {
     }
     console.log("next card");
     if (selectedCard === cards.length - 1) {
-      ShuffleCards();
+      setCards(ShuffleCards(cards));
       setSelectedCard(0);
     } else setSelectedCard(selectedCard + 1);
   }
-  function ShuffleCards() {
-    // ToDO: Shuffle them cards
-    console.log("Shuffle cards");
+  function ShuffleCards(cardsToShuffle) {
+    let shuffledCards = cardsToShuffle.slice();
+    for (let i = 0; i < cardsToShuffle.length; i++) {
+      let randomCard = Math.floor(Math.random() * shuffledCards.length);
+      console.log("mix it up", i, randomCard);
+      let temp = shuffledCards[i];
+      shuffledCards[i] = shuffledCards[randomCard];
+      shuffledCards[randomCard] = temp;
+    }
+    console.log(shuffledCards);
+    return shuffledCards;
   }
   useEffect(() => {
     GetCardSet(id);
