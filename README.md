@@ -32,8 +32,17 @@ PORT = 4242 # If you want to run the front end on a different port besides the d
   - [ ] Explanations
 - [ ] Header
 - [ ] Side Nav
-- [ ] Multiple Choice
+
+- [ ] Admin section
+- [ ] User auth
 - [ ] ToDo list
+
+- [ ] Save user responses
+- [ ] Loading component
+- [ ] Fetch wrapper
+- [ ] Error handling
+
+- [ ] Multiple Choice
 
 ## Add and set up
 
@@ -44,6 +53,3 @@ PORT = 4242 # If you want to run the front end on a different port besides the d
 - [ ] Tests
 - [ ] Hook Form
 - [ ] Cypress
-- [ ] Error handling
-- [ ] Fetch wrapper
-- [ ] Loading component

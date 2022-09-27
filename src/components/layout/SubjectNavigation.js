@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Loading from "../loading/Loading";
 import SubjectItem from "./SubjectItem";
 const apiUrl = process.env.REACT_APP_API;
 const SubjectNavigation = () => {
@@ -12,6 +13,7 @@ const SubjectNavigation = () => {
   useEffect(() => {
     GetSubjects();
   }, []);
+
   return (
     <div>
       {subjects.length > 0 && (
@@ -25,6 +27,7 @@ const SubjectNavigation = () => {
           })}
         </ul>
       )}
+      {!subjects.length && <Loading />}
     </div>
   );
 };

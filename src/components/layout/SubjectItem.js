@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Loading from "../loading/Loading";
 let apiUrl = process.env.REACT_APP_API;
 
 const SubjectItem = ({ subject }) => {
@@ -27,6 +28,7 @@ const SubjectItem = ({ subject }) => {
       </p>
       {displayLessons && (
         <ul>
+          {!lessons.length && <Loading />}
           {lessons.map((lesson) => {
             return (
               <li key={lesson.id}>
