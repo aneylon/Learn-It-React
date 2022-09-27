@@ -1,7 +1,10 @@
 import Card from "./Card";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 const apiUrl = process.env.REACT_APP_API;
-const FlashCards = ({ id }) => {
+// const FlashCards = ({ id }) => {
+const FlashCards = () => {
+  const { id } = useParams();
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(0);
   // get cards by set
