@@ -6,16 +6,18 @@ const apiUrl = process.env.REACT_APP_API;
 const FlashCards = () => {
   const { id } = useParams();
   const [cards, setCards] = useState([]);
+  const [setInfo, setSetInfo] = useState({ name: "", subTitle: "" });
   const [selectedCard, setSelectedCard] = useState(0);
   // get cards by set
   function GetCardSet(setId) {
     console.log("getting card set", setId);
-    fetch(`${apiUrl}/cards`)
+    fetch(`${apiUrl}/cardSet/${setId}`)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        setCards(ShuffleCards(data));
+        setCards(ShuffleCards(data.cards));
+        setSetInfo({ name: data.name, subTitle: data.subTitle });
         console.log(data);
       })
       .catch((error) => console.error("Error getting card set : ", error));
@@ -53,14 +55,15 @@ const FlashCards = () => {
     return shuffledCards;
   }
   useEffect(() => {
+    console.log("start it up");
     GetCardSet(id);
-  }, []);
+  }, [id]);
   useEffect(() => {
     console.log(selectedCard);
   });
   return (
     <div>
-      Flash Cards : {id}
+      <div title={setInfo.subTitle}>{setInfo.name}</div>
       {cards.length > 0 && (
         <div>
           <Card cardData={cards[selectedCard]} />
