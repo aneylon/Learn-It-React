@@ -45,3 +45,5 @@ PORT = 4242 # If you want to run the front end on a different port besides the d
 - [ ] Hook Form
 - [ ] Cypress
 - [ ] Error handling
+- [ ] Fetch wrapper
+- [ ] Loading component

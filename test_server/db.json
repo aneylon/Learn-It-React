@@ -52,16 +52,6 @@
       "title": "title three",
       "subTitle": "subtitle three",
       "id": 3
-    },
-    {
-      "title": "title five",
-      "subTitle": "subTitle five",
-      "id": "5"
-    },
-    {
-      "title": "title six",
-      "subTitle": "subtitle six",
-      "id": "6"
     }
   ],
   "lessons": [
