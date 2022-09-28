@@ -1,7 +1,14 @@
-import Card from "./Card";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Card from "./Card";
 import Loading from "../loading/Loading";
+import {
+  Button,
+  Container,
+  Card as MuiCard,
+  CardContent,
+  CardActions,
+} from "@mui/material";
 const apiUrl = process.env.REACT_APP_API;
 // const FlashCards = ({ id }) => {
 const FlashCards = () => {
@@ -55,16 +62,33 @@ const FlashCards = () => {
   }, [id]);
   return (
     <div>
-      {!cards.length && <Loading />}
-      <div title={setInfo.subTitle}>{setInfo.name}</div>
-      {cards.length > 0 && (
-        <div>
-          <Card cardData={cards[selectedCard]} />
-          <button onClick={() => NextCard("know")}>Know</button>
+      <Container style={{ maxWidth: "550px" }}>
+        <MuiCard variant="outlined">
+          <CardContent>
+            {!cards.length && <Loading />}
+            <div title={setInfo.subTitle}>{setInfo.name}</div>
+            {cards.length > 0 && (
+              <div>
+                <Card cardData={cards[selectedCard]} />
+                {/* <button onClick={() => NextCard("know")}>Know</button>
           <button onClick={() => NextCard("notSure")}>Not Sure</button>
-          <button onClick={() => NextCard("dontKnow")}>Don't Know</button>
-        </div>
-      )}
+        <button onClick={() => NextCard("dontKnow")}>Don't Know</button> */}
+              </div>
+            )}
+          </CardContent>
+          <CardActions style={{ justifyContent: "center" }}>
+            <Button variant="outlined" onClick={() => NextCard("know")}>
+              Know
+            </Button>
+            <Button variant="outlined" onClick={() => NextCard("notSure")}>
+              Not Sure
+            </Button>
+            <Button variant="outlined" onClick={() => NextCard("dontKnow")}>
+              Don't Know
+            </Button>
+          </CardActions>
+        </MuiCard>
+      </Container>
     </div>
   );
 };
