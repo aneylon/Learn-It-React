@@ -1,24 +1,11 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Header from "./Header";
+import SideNav from "./SideNav";
 const Layout = () => {
   return (
     <div>
-      Layout
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/admin">Admin</Link>
-          </li>
-          <li>
-            <Link to="/flashCards/3">Cards</Link>
-          </li>
-        </ul>
-      </nav>
+      <Header />
+      <SideNav />
       <div>
         <Outlet />
       </div>

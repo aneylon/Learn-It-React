@@ -1,22 +1,23 @@
 import Card from "./Card";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Loading from "../loading/Loading";
 const apiUrl = process.env.REACT_APP_API;
 // const FlashCards = ({ id }) => {
 const FlashCards = () => {
   const { id } = useParams();
   const [cards, setCards] = useState([]);
+  const [setInfo, setSetInfo] = useState({ name: "", subTitle: "" });
   const [selectedCard, setSelectedCard] = useState(0);
   // get cards by set
   function GetCardSet(setId) {
-    console.log("getting card set", setId);
-    fetch(`${apiUrl}/cards`)
+    fetch(`${apiUrl}/cardSet/${setId}`)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        setCards(ShuffleCards(data));
-        console.log(data);
+        setCards(ShuffleCards(data.cards));
+        setSetInfo({ name: data.name, subTitle: data.subTitle });
       })
       .catch((error) => console.error("Error getting card set : ", error));
   }
@@ -34,7 +35,6 @@ const FlashCards = () => {
       default:
         break;
     }
-    console.log("next card");
     if (selectedCard === cards.length - 1) {
       setCards(ShuffleCards(cards));
       setSelectedCard(0);
@@ -44,23 +44,19 @@ const FlashCards = () => {
     let shuffledCards = cardsToShuffle.slice();
     for (let i = 0; i < cardsToShuffle.length; i++) {
       let randomCard = Math.floor(Math.random() * shuffledCards.length);
-      console.log("mix it up", i, randomCard);
       let temp = shuffledCards[i];
       shuffledCards[i] = shuffledCards[randomCard];
       shuffledCards[randomCard] = temp;
     }
-    console.log(shuffledCards);
     return shuffledCards;
   }
   useEffect(() => {
     GetCardSet(id);
-  }, []);
-  useEffect(() => {
-    console.log(selectedCard);
-  });
+  }, [id]);
   return (
     <div>
-      Flash Cards : {id}
+      {!cards.length && <Loading />}
+      <div title={setInfo.subTitle}>{setInfo.name}</div>
       {cards.length > 0 && (
         <div>
           <Card cardData={cards[selectedCard]} />

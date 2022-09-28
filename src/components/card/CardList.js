@@ -3,7 +3,6 @@ let apiUrl = process.env.REACT_APP_API;
 const CardList = () => {
   const [cards, setCards] = useState([]);
   function GetCards() {
-    console.log("get all the cards");
     fetch(`${apiUrl}/cards`)
       .then((response) => response.json())
       .then((data) => {

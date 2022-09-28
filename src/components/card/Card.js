@@ -1,7 +1,6 @@
 const Card = ({ cardData }) => {
   return (
     <div>
-      Card! : {cardData.id}
       <div>
         <p>{cardData.question}</p>
         <p>{cardData.answer}</p>
