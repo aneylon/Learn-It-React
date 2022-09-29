@@ -1,3 +1,4 @@
+import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { useState, useEffect } from "react";
 import Loading from "../loading/Loading";
 import SubjectItem from "./SubjectItem";
@@ -17,15 +18,15 @@ const SubjectNavigation = () => {
   return (
     <div>
       {subjects.length > 0 && (
-        <ul>
+        <List component="nav">
           {subjects.map((subject) => {
             return (
-              <li key={subject.id}>
+              <ListItem key={subject.id} disablePadding>
                 <SubjectItem subject={subject} />
-              </li>
+              </ListItem>
             );
           })}
-        </ul>
+        </List>
       )}
       {!subjects.length && <Loading />}
     </div>

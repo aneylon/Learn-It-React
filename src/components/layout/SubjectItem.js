@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Loading from "../loading/Loading";
+import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+
 let apiUrl = process.env.REACT_APP_API;
 
 const SubjectItem = ({ subject }) => {
@@ -18,27 +21,33 @@ const SubjectItem = ({ subject }) => {
     LoadLessons(subjectId);
   }
   return (
-    <div title={subject.subTitle}>
-      <p
+    <div>
+      <ListItemButton
         onClick={() => {
           ToggleLessons(subject.id);
         }}
       >
-        {subject.title}
-      </p>
+        <ListItemText primary={subject.title} title={subject.subTitle} />
+        {displayLessons ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
       {displayLessons && (
-        <ul>
+        <List component="div" disablePadding>
           {!lessons.length && <Loading />}
           {lessons.map((lesson) => {
             return (
-              <li key={lesson.id}>
+              // <ListItem key={lesson.id}>
+              <ListItemButton sx={{ pl: 4 }} key={lesson.id}>
                 <Link to={`/flashCards/${lesson.id}`} title={lesson.subTitle}>
-                  {lesson.title}
+                  <ListItemText
+                    primary={lesson.title}
+                    title={lesson.subTitle}
+                  />
                 </Link>
-              </li>
+              </ListItemButton>
+              // </ListItem>
             );
           })}
-        </ul>
+        </List>
       )}
     </div>
   );
