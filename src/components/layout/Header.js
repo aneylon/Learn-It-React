@@ -8,7 +8,10 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 const Header = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar
+        position="fixed"
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
         <Toolbar>
           <MenuBookIcon />
           <Typography variant="h4" sx={{ pl: 2 }}>
