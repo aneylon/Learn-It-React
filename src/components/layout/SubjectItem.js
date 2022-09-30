@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Loading from "../loading/Loading";
-import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { List, ListItemButton, ListItemText } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 let apiUrl = process.env.REACT_APP_API;
@@ -35,16 +35,14 @@ const SubjectItem = ({ subject }) => {
           {!lessons.length && <Loading />}
           {lessons.map((lesson) => {
             return (
-              // <ListItem key={lesson.id}>
-              <ListItemButton sx={{ pl: 4 }} key={lesson.id}>
-                <Link to={`/flashCards/${lesson.id}`} title={lesson.subTitle}>
-                  <ListItemText
-                    primary={lesson.title}
-                    title={lesson.subTitle}
-                  />
-                </Link>
+              <ListItemButton
+                component={Link}
+                to={`/flashCards/${lesson.id}`}
+                sx={{ pl: 4 }}
+                key={lesson.id}
+              >
+                <ListItemText primary={lesson.title} title={lesson.subTitle} />
               </ListItemButton>
-              // </ListItem>
             );
           })}
         </List>
