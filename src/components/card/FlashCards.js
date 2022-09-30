@@ -8,6 +8,7 @@ import {
   Card as MuiCard,
   CardContent,
   CardActions,
+  Typography,
 } from "@mui/material";
 const apiUrl = process.env.REACT_APP_API;
 // const FlashCards = ({ id }) => {
@@ -62,10 +63,16 @@ const FlashCards = () => {
   }, [id]);
   return (
     <Container style={{ maxWidth: "550px" }}>
-      <MuiCard variant="outlined" sx={{ marginTop: "5em" }}>
+      <MuiCard variant="elevation" sx={{ marginTop: 15 }}>
         <CardContent>
           {!cards.length && <Loading />}
-          <div title={setInfo.subTitle}>{setInfo.name}</div>
+          <Typography
+            variant="h5"
+            title={setInfo.subTitle}
+            sx={{ textAlign: "center", marginBottom: 2 }}
+          >
+            {setInfo.name}
+          </Typography>
           {cards.length > 0 && <Card cardData={cards[selectedCard]} />}
         </CardContent>
         <CardActions style={{ justifyContent: "center" }}>
