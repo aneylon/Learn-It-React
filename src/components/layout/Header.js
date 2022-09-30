@@ -76,7 +76,10 @@ const Header = () => {
               Admin
             </Button>
           </Box>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" component={RouterLink} to="/login">
+            Login
+          </Button>
+          <Button color="inherit">Logout</Button>
         </Toolbar>
       </AppBar>
     </Box>
