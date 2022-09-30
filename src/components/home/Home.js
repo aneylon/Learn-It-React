@@ -1,4 +1,11 @@
+import { Box, Toolbar, Typography } from "@mui/material";
+
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <Box component="main" sx={{ flexGrow: 1, p: 5, marginLeft: 15 }}>
+      <Toolbar />
+      <Typography>Homey Home</Typography>
+    </Box>
+  );
 };
 export default Home;
