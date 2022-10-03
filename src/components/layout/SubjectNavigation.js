@@ -1,5 +1,6 @@
 import { List, ListItem } from "@mui/material";
 import { useState, useEffect } from "react";
+import { handleError, request } from "../../api/apiUtilities";
 import Loading from "../loading/Loading";
 import SubjectItem from "./SubjectItem";
 const apiUrl = process.env.REACT_APP_API;
@@ -10,6 +11,15 @@ const SubjectNavigation = () => {
       .then((response) => response.json())
       .then((data) => setSubjects(data))
       .catch((error) => console.error(error));
+    // request("get", `${apiUrl}/subjects`, {})
+    //   .then((response) => {
+    //     console.log(response);
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     console.log(data);
+    //   })
+    //   .catch((error) => console.error(error));
   }
   useEffect(() => {
     GetSubjects();
