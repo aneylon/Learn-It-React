@@ -16,9 +16,18 @@ PORT = 4242 # If you want to run the front end on a different port besides the d
 
 `npm start`
 
+# Tools
+
+## Plugins
+
+- Spell Checking plugin - https://github.com/streetsidesoftware/vscode-spell-checker
+- Prettier - https://github.com/prettier/prettier-vscode
+
 # Running tests
 
-`npm test`
+`npm test` to run unit tests locally
+
+`npx cypress open` to run cypress locally
 
 # Todo
 
@@ -30,7 +39,7 @@ PORT = 4242 # If you want to run the front end on a different port besides the d
 
 - [x] Loading component
 
-  - [ ] spinner icon / gif
+  - [x] spinner icon / gif
 
 - [ ] Admin section
 - [ ] User auth
@@ -55,8 +64,13 @@ PORT = 4242 # If you want to run the front end on a different port besides the d
 
 ## Add and set up
 
+- [ ] Deploy to cloud
+- [ ] CI
 - [ ] Tests
-- [ ] Cypress
+  - [ ] Local
+  - [ ] CI
+- [x] Cypress
+  - [ ] CI
 - [ ] Typescript (or Flow?)
 - [x] MUI
 - [x] Hook Form
