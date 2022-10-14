@@ -10,8 +10,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { useSignOut } from "../../hooks/useSignOut";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const Header = () => {
+  const { signOut } = useSignOut();
+  const { user } = useAuthContext();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -19,6 +23,9 @@ const Header = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleSignOut = () => {
+    signOut();
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -76,10 +83,15 @@ const Header = () => {
               Admin
             </Button>
           </Box>
-          <Button color="inherit" component={RouterLink} to="/login">
-            Login
-          </Button>
-          <Button color="inherit">Logout</Button>
+          {user ? (
+            <Button color="inherit" onClick={handleSignOut}>
+              Logout
+            </Button>
+          ) : (
+            <Button color="inherit" component={RouterLink} to="/login">
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
