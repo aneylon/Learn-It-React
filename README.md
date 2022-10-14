@@ -42,8 +42,10 @@ PORT = 4242 # If you want to run the front end on a different port besides the d
   - [x] spinner icon / gif
 
 - [ ] Admin section
-- [ ] User auth
+  - [ ] add / update / delete
+- [x] User auth
 
+  - [ ] Change route on signin / signup success
   - [ ] Remember username
   - [ ] Hide show relevant links
   - [ ] ToDo list

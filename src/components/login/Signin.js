@@ -74,7 +74,7 @@ const Signin = () => {
         />
         <FormControlLabel
           control={<Checkbox />}
-          label="Remember me."
+          label="Remember me"
           {...register("rememberMe")}
         />
       </FormGroup>
