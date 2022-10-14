@@ -1,8 +1,10 @@
 import { TextField, Button } from "@mui/material";
 import * as React from "react";
 import { useForm } from "react-hook-form";
+import { useSignUp } from "../../hooks/useSignUp";
 
 const Signup = () => {
+  const { signUp, error, isLoading } = useSignUp();
   const {
     register,
     handleSubmit,
@@ -10,12 +12,12 @@ const Signup = () => {
     formState: { errors },
     getValues,
   } = useForm();
+  const handleSignUp = async (data) => {
+    console.log("signup", data);
+    await signUp(data.signupEmail, data.signupPassword);
+  };
   return (
-    <form
-      onSubmit={handleSubmit((data) => {
-        console.log("signup", data);
-      })}
-    >
+    <form onSubmit={handleSubmit(handleSignUp)}>
       <TextField
         autoFocus
         fullWidth
