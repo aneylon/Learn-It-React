@@ -15,8 +15,6 @@ const Signin = () => {
   let rememberedUser = localStorage.getItem("LearnItUser");
   let thing = rememberedUser === null ? "" : rememberedUser;
   let remember = localStorage.getItem("RememberLearnItUser");
-  console.log(remember);
-  console.log(remember == "true");
   const { signIn, error, isLoading } = useSignIn();
   const navigate = useNavigate();
   const {
@@ -83,12 +81,13 @@ const Signin = () => {
           })}
         />
         <FormControlLabel
-          control={<Checkbox value={getValues("rememberMe")} />}
+          control={<Checkbox />}
           label="Remember me"
           {...register("rememberMe")}
         />
         <div>
-          {getValues("rememberMe")} {getValues("loginEmail")}
+          <p>{console.log(getValues())}</p>
+          <p>{}</p>
         </div>
       </FormGroup>
       <Button sx={{ marginTop: 2 }} type="submit" variant="outlined">
