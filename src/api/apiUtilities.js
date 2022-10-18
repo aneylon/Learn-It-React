@@ -6,13 +6,11 @@ export function request(method, url, body) {
   if (method !== "get") {
     options = { body: JSON.stringify(body), ...options };
   }
-  console.log(options);
   return fetch(url, options);
 }
 
 export function authHeader(url) {
-  const jwt = sessionStorage.getItem("LearnItAuth");
-  console.log(jwt);
+  const jwt = localStorage.getItem("LearnItAuth");
   if (jwt !== null) {
     return { Authorization: `Bearer ${jwt}` };
   }
@@ -21,7 +19,6 @@ export function authHeader(url) {
 
 // handle response - log out if unauthorized or forbidden
 export function handleResponse(response) {
-  console.log("hndl res", response);
   throw new Error("Wut!?!?!");
   if (response.ok) return response.json();
 }

@@ -24,7 +24,7 @@ export const useSignIn = () => {
       }
       if (response.ok) {
         // save user to local storage
-        localStorage.setItem("user", JSON.stringify(json));
+        localStorage.setItem("LearnItAuth", JSON.stringify(json.token));
 
         dispatch({ type: "LOGIN", payload: json });
 

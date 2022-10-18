@@ -6,7 +6,6 @@ const CardList = () => {
     fetch(`${apiUrl}/cards`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setCards(data);
       });
   }
