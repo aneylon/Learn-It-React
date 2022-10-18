@@ -6,14 +6,19 @@ import {
   FormGroup,
 } from "@mui/material";
 import * as React from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSignIn } from "../../hooks/useSignIn";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
   let rememberedUser = localStorage.getItem("LearnItUser");
   let thing = rememberedUser === null ? "" : rememberedUser;
   let remember = localStorage.getItem("RememberLearnItUser");
+  console.log(remember);
+  console.log(remember == "true");
   const { signIn, error, isLoading } = useSignIn();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -25,10 +30,10 @@ const Signin = () => {
     reValidateMode: "onChange",
     defaultValues: {
       loginEmail: thing,
+      rememberMe: remember == "true",
     },
   });
   const handleSignIn = async (data) => {
-    console.log("login", data);
     if (data.rememberMe) {
       localStorage.setItem("LearnItUser", data.loginEmail);
       localStorage.setItem("RememberLearnItUser", data.rememberMe);
@@ -38,6 +43,11 @@ const Signin = () => {
     }
     await signIn(data.loginEmail, data.loginPassword);
   };
+  useEffect(() => {
+    if (isLoading === false) {
+      navigate("/");
+    }
+  }, [isLoading]);
   return (
     <form onSubmit={handleSubmit(handleSignIn)}>
       <FormGroup>
@@ -73,10 +83,13 @@ const Signin = () => {
           })}
         />
         <FormControlLabel
-          control={<Checkbox />}
+          control={<Checkbox value={getValues("rememberMe")} />}
           label="Remember me"
           {...register("rememberMe")}
         />
+        <div>
+          {getValues("rememberMe")} {getValues("loginEmail")}
+        </div>
       </FormGroup>
       <Button sx={{ marginTop: 2 }} type="submit" variant="outlined">
         Login

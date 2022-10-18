@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Loading from "../loading/Loading";
 import { List, ListItemButton, ListItemText } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { request } from "../../api/apiUtilities";
 
 let apiUrl = process.env.REACT_APP_API;
 
@@ -24,7 +25,7 @@ const SubjectItem = ({ subject }) => {
     <div>
       <ListItemButton
         onClick={() => {
-          ToggleLessons(subject.id);
+          ToggleLessons(subject._id);
         }}
       >
         <ListItemText primary={subject.title} title={subject.subTitle} />

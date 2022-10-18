@@ -7,19 +7,14 @@ const apiUrl = process.env.REACT_APP_API;
 const SubjectNavigation = () => {
   const [subjects, setSubjects] = useState([]);
   function GetSubjects() {
-    fetch(`${apiUrl}/subjects`)
-      .then((response) => response.json())
-      .then((data) => setSubjects(data))
-      .catch((error) => console.error(error));
-    // request("get", `${apiUrl}/subjects`, {})
-    //   .then((response) => {
-    //     console.log(response);
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //   })
-    //   .catch((error) => console.error(error));
+    request("get", `${apiUrl}/subject`, {})
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setSubjects(data.subjects);
+      })
+      .catch((error) => console.error("subject test error", error));
   }
   useEffect(() => {
     GetSubjects();
@@ -31,14 +26,14 @@ const SubjectNavigation = () => {
         <List component="nav">
           {subjects.map((subject) => {
             return (
-              <ListItem key={subject.id} disablePadding>
+              <ListItem key={subject._id} disablePadding>
                 <SubjectItem subject={subject} />
               </ListItem>
             );
           })}
         </List>
       )}
-      {!subjects.length && <Loading />}
+      {subjects.length === 0 && <Loading />}
     </div>
   );
 };
