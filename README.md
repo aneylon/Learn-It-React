@@ -64,6 +64,10 @@ PORT = 4242 # If you want to run the front end on a different port besides the d
 - [x] Header
 - [x] Side Nav
 
+- [ ] Protected routes
+  - [ ] Roles
+  - [ ] Permissions
+
 ## Add and set up
 
 - [ ] Deploy to cloud
