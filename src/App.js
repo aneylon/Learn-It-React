@@ -9,6 +9,7 @@ import Login from "./components/login/Login";
 import Profile from "./components/profile/Profile";
 import { useAuthContext } from "./hooks/useAuthContext";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
+import Admin from "./components/admin/admin";
 
 function App() {
   const { user } = useAuthContext();
@@ -27,7 +28,10 @@ function App() {
               path="profile"
               element={!!user ? <Profile /> : <Navigate to="/" />}
             />
-            <Route path="profile" element={<Profile />} />
+            <Route
+              path="admin"
+              element={!!user ? <Admin /> : <Navigate to="/" />}
+            />
             <Route path="flashCards/:id" element={<FlashCards />} />
             <Route path="*" element={<NotFound />} />
           </Route>
