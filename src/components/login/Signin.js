@@ -85,10 +85,6 @@ const Signin = () => {
           label="Remember me"
           {...register("rememberMe")}
         />
-        <div>
-          <p>{console.log(getValues())}</p>
-          <p>{}</p>
-        </div>
       </FormGroup>
       <Button sx={{ marginTop: 2 }} type="submit" variant="outlined">
         Login
