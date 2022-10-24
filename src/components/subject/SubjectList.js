@@ -1,5 +1,10 @@
 import {
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Paper,
   Table,
   TableBody,
@@ -7,10 +12,14 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { request } from "../../api/apiUtilities";
 const apiUrl = process.env.REACT_APP_API;
 const SubjectList = () => {
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [subjects, setSubjects] = useState([]);
   function GetSubjects() {
     fetch(`${apiUrl}/subject`)
@@ -22,6 +31,36 @@ const SubjectList = () => {
       })
       .catch((error) => console.error("Error fetching subjects : ", error));
   }
+  const DeleteItem = (id) => {
+    console.log(`delete ${id}`);
+    console.log("show confirm dialog");
+    setShowDeleteDialog(true);
+    setItemToDelete(id);
+  };
+  const ConfirmDelete = () => {
+    request("delete", `${apiUrl}/subject/${itemToDelete}`, {})
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        GetSubjects();
+        setItemToDelete(null);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    setShowDeleteDialog(false);
+  };
+  const CancelDelete = () => {
+    setShowDeleteDialog(false);
+    setItemToDelete(null);
+  };
+  const EditItem = (id) => {
+    console.log(`edit : ${id}`);
+    setItemToDelete(id);
+    // ShowEdit(id);
+  };
   useEffect(() => {
     GetSubjects();
   }, []);
@@ -47,7 +86,7 @@ const SubjectList = () => {
                     <TableCell align="center">
                       <Button
                         onClick={() => {
-                          console.log(`edit: ${subject._id}`);
+                          EditItem(subject._id);
                         }}
                       >
                         Edit
@@ -56,7 +95,7 @@ const SubjectList = () => {
                     <TableCell align="right">
                       <Button
                         onClick={() => {
-                          console.log(`delete: ${subject._id}`);
+                          DeleteItem(subject._id);
                         }}
                       >
                         Delete
@@ -69,6 +108,18 @@ const SubjectList = () => {
           )}
         </Table>
       </TableContainer>
+      <Dialog open={showDeleteDialog} onClose={CancelDelete}>
+        <DialogTitle>Delete Item?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you to delete this item?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={CancelDelete}>Cancel</Button>
+          <Button onClick={ConfirmDelete}>Ok</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
