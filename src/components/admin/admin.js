@@ -8,6 +8,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import SubjectList from "../subject/SubjectList";
 const Admin = () => {
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 5, marginLeft: 15 }}>
@@ -23,16 +24,10 @@ const Admin = () => {
             </AccordionDetails>
           </Accordion>
           <Accordion>
-            <AccordionSummary>Edit</AccordionSummary>
-            <AccordionDetails>Change it up</AccordionDetails>
-          </Accordion>
-          <Accordion>
             <AccordionSummary>List</AccordionSummary>
-            <AccordionDetails>List it out</AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary>Delete</AccordionSummary>
-            <AccordionDetails>Remove it</AccordionDetails>
+            <AccordionDetails>
+              <SubjectList />
+            </AccordionDetails>
           </Accordion>
         </AccordionDetails>
       </Accordion>
