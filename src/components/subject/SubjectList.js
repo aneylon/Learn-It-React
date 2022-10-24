@@ -1,37 +1,74 @@
+import {
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 const apiUrl = process.env.REACT_APP_API;
 const SubjectList = () => {
   const [subjects, setSubjects] = useState([]);
   function GetSubjects() {
-    fetch(`${apiUrl}/subjects`)
+    fetch(`${apiUrl}/subject`)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        setSubjects(data);
+        setSubjects(data.subjects);
       })
       .catch((error) => console.error("Error fetching subjects : ", error));
-  }
-  function SelectSubject(subjectId) {
-    console.log("subject selected", subjectId);
-    console.log("show or hide lessons");
   }
   useEffect(() => {
     GetSubjects();
   }, []);
   return (
     <div>
-      {subjects.length > 0 && (
-        <ul>
-          {subjects.map((subject) => {
-            return (
-              <li key={subject.id} onClick={() => SelectSubject(subject.id)}>
-                <span title={subject.subTitle}>{subject.title}</span>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Title</TableCell>
+              <TableCell>SubTitle</TableCell>
+              <TableCell align="center">Edit</TableCell>
+              <TableCell align="right">Delete</TableCell>
+            </TableRow>
+          </TableHead>
+          {subjects.length > 0 && (
+            <TableBody>
+              {subjects.map((subject) => {
+                return (
+                  <TableRow key={subject._id}>
+                    <TableCell>{subject.title}</TableCell>
+                    <TableCell>{subject.subTitle}</TableCell>
+                    <TableCell align="center">
+                      <Button
+                        onClick={() => {
+                          console.log(`edit: ${subject._id}`);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button
+                        onClick={() => {
+                          console.log(`delete: ${subject._id}`);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          )}
+        </Table>
+      </TableContainer>
     </div>
   );
 };
