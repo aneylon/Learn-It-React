@@ -12,15 +12,21 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
+  TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { request } from "../../api/apiUtilities";
+import { useForm } from "react-hook-form";
 const apiUrl = process.env.REACT_APP_API;
 const SubjectList = () => {
   const [itemToDelete, setItemToDelete] = useState(null);
+  const [itemToEdit, setItemToEdit] = useState(null);
+  const [titleToEdit, setTitleToEdit] = useState("");
+  const [subTitleToEdit, setSubTitleToEdit] = useState("");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
   const [subjects, setSubjects] = useState([]);
+  const { register } = useForm();
   function GetSubjects() {
     fetch(`${apiUrl}/subject`)
       .then((response) => {
@@ -57,9 +63,19 @@ const SubjectList = () => {
     setItemToDelete(null);
   };
   const EditItem = (id) => {
-    console.log(`edit : ${id}`);
-    setItemToDelete(id);
-    // ShowEdit(id);
+    setItemToEdit(id);
+    let item = subjects.find((subject) => subject._id === id);
+    setTitleToEdit(item.title);
+    setSubTitleToEdit(item.subTitle);
+    setShowEditDialog(true);
+  };
+  const ConfirmEdit = () => {
+    // http call to route
+    setShowEditDialog(false);
+  };
+  const CancelEdit = () => {
+    setItemToEdit(null);
+    setShowEditDialog(false);
   };
   useEffect(() => {
     GetSubjects();
@@ -118,6 +134,44 @@ const SubjectList = () => {
         <DialogActions>
           <Button onClick={CancelDelete}>Cancel</Button>
           <Button onClick={ConfirmDelete}>Ok</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={showEditDialog} onClose={CancelEdit}>
+        <DialogTitle>Edit Item</DialogTitle>
+        <DialogContent>
+          <form>
+            <TextField
+              autoFocus
+              margin="dense"
+              placeholder="updated title"
+              label="Title"
+              fullWidth
+              value={titleToEdit}
+              onChange={(event) => {
+                setTitleToEdit(event.target.value);
+              }}
+              // error={}
+              // helperText={}
+              // {...register("title", { required: "Title is required" })}
+            />
+            <TextField
+              margin="dense"
+              placeholder="updated subtitle"
+              label="SubTitle"
+              fullWidth
+              value={subTitleToEdit}
+              onChange={(event) => {
+                setSubTitleToEdit(event.target.value);
+              }}
+              // error={}
+              // helperText={}
+              // {...register("subTitle", { required: "SubTitle is required" })}
+            />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={CancelEdit}>Cancel</Button>
+          <Button onClick={ConfirmEdit}>Update</Button>
         </DialogActions>
       </Dialog>
     </div>
