@@ -26,7 +26,16 @@ const SubjectList = () => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [subjects, setSubjects] = useState([]);
-  const { register } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    setError,
+    formState: { errors },
+  } = useForm({
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+  });
   function GetSubjects() {
     fetch(`${apiUrl}/subject`)
       .then((response) => {
@@ -65,6 +74,8 @@ const SubjectList = () => {
   const EditItem = (id) => {
     setItemToEdit(id);
     let item = subjects.find((subject) => subject._id === id);
+    setValue("title", item.title);
+    setValue("subTitle", item.subTitle);
     setTitleToEdit(item.title);
     setSubTitleToEdit(item.subTitle);
     setShowEditDialog(true);
@@ -138,41 +149,51 @@ const SubjectList = () => {
       </Dialog>
       <Dialog open={showEditDialog} onClose={CancelEdit}>
         <DialogTitle>Edit Item</DialogTitle>
-        <DialogContent>
-          <form>
+        <form
+          onSubmit={handleSubmit((data) => {
+            console.log(data);
+          })}
+        >
+          <DialogContent>
             <TextField
               autoFocus
               margin="dense"
               placeholder="updated title"
               label="Title"
+              type="text"
               fullWidth
-              value={titleToEdit}
-              onChange={(event) => {
-                setTitleToEdit(event.target.value);
-              }}
-              // error={}
-              // helperText={}
-              // {...register("title", { required: "Title is required" })}
+              required
+              InputLabelProps={{ shrink: true }}
+              error={!!errors.title}
+              helperText={errors.title ? errors.title.message : ""}
+              {...register("title", {
+                required: "Title is required",
+                onChange: (e) => {
+                  console.log(e);
+                  setError("title", { type: "stuff", message: "things" });
+                },
+              })}
             />
             <TextField
               margin="dense"
               placeholder="updated subtitle"
               label="SubTitle"
+              name="subTitle"
+              type="text"
               fullWidth
-              value={subTitleToEdit}
-              onChange={(event) => {
-                setSubTitleToEdit(event.target.value);
-              }}
-              // error={}
-              // helperText={}
-              // {...register("subTitle", { required: "SubTitle is required" })}
+              required
+              InputLabelProps={{ shrink: true }}
+              error={!!errors.subTitle}
+              helperText={errors.subTitle ? errors.subTitle.message : ""}
+              {...register("subTitle", { required: "SubTitle is required" })}
             />
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={CancelEdit}>Cancel</Button>
-          <Button onClick={ConfirmEdit}>Update</Button>
-        </DialogActions>
+            <>{console.log(errors)}</>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={CancelEdit}>Cancel</Button>
+            <Button onClick={ConfirmEdit}>Update</Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </div>
   );

@@ -11,7 +11,6 @@ const AddSubject = () => {
     reValidateMode: "onChange",
   });
   const AddNewSubject = async (data) => {
-    console.log(errors);
     const response = await fetch(`${apiUrl}/subject`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -24,7 +23,6 @@ const AddSubject = () => {
   };
   return (
     <div>
-      <div>{console.log(errors)}</div>
       <form onSubmit={handleSubmit(AddNewSubject)}>
         <FormGroup>
           <TextField
