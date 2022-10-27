@@ -20,15 +20,13 @@ const Signin = () => {
   const {
     register,
     handleSubmit,
-    formState,
     formState: { errors },
-    getValues,
   } = useForm({
     mode: "onSubmit",
     reValidateMode: "onChange",
     defaultValues: {
       loginEmail: thing,
-      rememberMe: remember == "true",
+      rememberMe: remember === "true",
     },
   });
   const handleSignIn = async (data) => {
@@ -45,7 +43,7 @@ const Signin = () => {
     if (isLoading === false) {
       navigate("/");
     }
-  }, [isLoading]);
+  }, [isLoading, navigate]);
   return (
     <form onSubmit={handleSubmit(handleSignIn)}>
       <FormGroup>

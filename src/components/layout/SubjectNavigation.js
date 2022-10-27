@@ -1,6 +1,6 @@
 import { List, ListItem } from "@mui/material";
 import { useState, useEffect } from "react";
-import { handleError, request } from "../../api/apiUtilities";
+import { request } from "../../api/apiUtilities";
 import Loading from "../loading/Loading";
 import SubjectItem from "./SubjectItem";
 const apiUrl = process.env.REACT_APP_API;

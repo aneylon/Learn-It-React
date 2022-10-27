@@ -17,9 +17,7 @@ const Signup = () => {
   const {
     register,
     handleSubmit,
-    formState,
     formState: { errors },
-    getValues,
   } = useForm();
   const handleSignUp = async (data) => {
     if (data.rememberMe) {
@@ -35,7 +33,7 @@ const Signup = () => {
     if (isLoading === false) {
       navigate("/");
     }
-  }, [isLoading]);
+  }, [isLoading, navigate]);
   return (
     <form onSubmit={handleSubmit(handleSignUp)}>
       <FormGroup>
