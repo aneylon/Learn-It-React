@@ -1,7 +1,9 @@
 import { Button, FormGroup, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-
+import { request } from "../../api/apiUtilities";
 import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const apiUrl = process.env.REACT_APP_API;
 const AddLesson = () => {
   const [subjectList, setSubjectList] = useState([]);
@@ -16,26 +18,29 @@ const AddLesson = () => {
     reValidateMode: "onChange",
   });
   function AddNewLesson(data) {
-    // use api utils
-    fetch(`${apiUrl}/lesson`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
+    request("post", `${apiUrl}/lesson`, data)
       .then((response) => {
-        return response.json();
-      })
-      .then((responseData) => {
-        console.log(responseData);
-        // clear form data.
-        reset();
+        if (response.ok === true && response.status === 200) {
+          toast.success("Lesson Added.");
+          reset();
+          // re fetch and render list?
+        } else {
+          toast.error("Error Adding Lesson.");
+        }
       })
       .catch((error) => console.error(error));
   }
   const GetSubjectList = () => {
-    console.log("getting subjects");
-    // use api util to get
-    setSubjectList([]);
+    request("get", `${apiUrl}/subject`, {})
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.subjects);
+        setSubjectList(data.subjects);
+      })
+      .catch(console.error);
   };
   useEffect(() => {
     GetSubjectList();
@@ -76,6 +81,7 @@ const AddLesson = () => {
           Add
         </Button>
       </form>
+      <ToastContainer />
     </div>
   );
 };
