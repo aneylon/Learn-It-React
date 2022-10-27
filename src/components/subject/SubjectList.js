@@ -16,26 +16,17 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { request } from "../../api/apiUtilities";
-import { useForm } from "react-hook-form";
 const apiUrl = process.env.REACT_APP_API;
 const SubjectList = () => {
   const [itemToDelete, setItemToDelete] = useState(null);
-  const [itemToEdit, setItemToEdit] = useState(null);
   const [titleToEdit, setTitleToEdit] = useState("");
+  const [titleError, setTitleError] = useState(false);
+  const [subTitleError, setSubTitleError] = useState(false);
   const [subTitleToEdit, setSubTitleToEdit] = useState("");
+  const [itemToEdit, setItemToEdit] = useState(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [subjects, setSubjects] = useState([]);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    setError,
-    formState: { errors },
-  } = useForm({
-    mode: "onSubmit",
-    reValidateMode: "onChange",
-  });
   function GetSubjects() {
     fetch(`${apiUrl}/subject`)
       .then((response) => {
@@ -47,8 +38,6 @@ const SubjectList = () => {
       .catch((error) => console.error("Error fetching subjects : ", error));
   }
   const DeleteItem = (id) => {
-    console.log(`delete ${id}`);
-    console.log("show confirm dialog");
     setShowDeleteDialog(true);
     setItemToDelete(id);
   };
@@ -58,7 +47,6 @@ const SubjectList = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         GetSubjects();
         setItemToDelete(null);
       })
@@ -72,20 +60,29 @@ const SubjectList = () => {
     setItemToDelete(null);
   };
   const EditItem = (id) => {
-    setItemToEdit(id);
     let item = subjects.find((subject) => subject._id === id);
-    setValue("title", item.title);
-    setValue("subTitle", item.subTitle);
+    setItemToEdit(id);
     setTitleToEdit(item.title);
     setSubTitleToEdit(item.subTitle);
     setShowEditDialog(true);
   };
   const ConfirmEdit = () => {
-    // http call to route
+    request("patch", `${apiUrl}/subject/${itemToEdit}`, {
+      title: titleToEdit,
+      subTitle: subTitleToEdit,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        GetSubjects();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     setShowEditDialog(false);
   };
   const CancelEdit = () => {
-    setItemToEdit(null);
     setShowEditDialog(false);
   };
   useEffect(() => {
@@ -149,51 +146,61 @@ const SubjectList = () => {
       </Dialog>
       <Dialog open={showEditDialog} onClose={CancelEdit}>
         <DialogTitle>Edit Item</DialogTitle>
-        <form
-          onSubmit={handleSubmit((data) => {
-            console.log(data);
-          })}
-        >
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              placeholder="updated title"
-              label="Title"
-              type="text"
-              fullWidth
-              required
-              InputLabelProps={{ shrink: true }}
-              error={!!errors.title}
-              helperText={errors.title ? errors.title.message : ""}
-              {...register("title", {
-                required: "Title is required",
-                onChange: (e) => {
-                  console.log(e);
-                  setError("title", { type: "stuff", message: "things" });
-                },
-              })}
-            />
-            <TextField
-              margin="dense"
-              placeholder="updated subtitle"
-              label="SubTitle"
-              name="subTitle"
-              type="text"
-              fullWidth
-              required
-              InputLabelProps={{ shrink: true }}
-              error={!!errors.subTitle}
-              helperText={errors.subTitle ? errors.subTitle.message : ""}
-              {...register("subTitle", { required: "SubTitle is required" })}
-            />
-            <>{console.log(errors)}</>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={CancelEdit}>Cancel</Button>
-            <Button onClick={ConfirmEdit}>Update</Button>
-          </DialogActions>
-        </form>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            placeholder="updated title"
+            label="Title"
+            type="text"
+            fullWidth
+            required
+            InputLabelProps={{ shrink: true }}
+            error={titleError}
+            helperText={titleError ? "Title Required." : ""}
+            onChange={(event) => {
+              let val = event.target.value;
+              setTitleToEdit(val);
+              if (val.length <= 0) {
+                setTitleError(true);
+              } else {
+                setTitleError(false);
+              }
+            }}
+            value={titleToEdit}
+          />
+          <TextField
+            margin="dense"
+            placeholder="updated subtitle"
+            label="SubTitle"
+            name="subTitle"
+            type="text"
+            fullWidth
+            required
+            InputLabelProps={{ shrink: true }}
+            error={subTitleError}
+            helperText={subTitleError ? "SubTitle Required." : ""}
+            onChange={(event) => {
+              let val = event.target.value;
+              setSubTitleToEdit(val);
+              if (val.length <= 0) {
+                setSubTitleError(true);
+              } else {
+                setSubTitleError(false);
+              }
+            }}
+            value={subTitleToEdit}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={CancelEdit}>Cancel</Button>
+          <Button
+            onClick={ConfirmEdit}
+            disabled={titleError === true || subTitleError === true}
+          >
+            Update
+          </Button>
+        </DialogActions>
       </Dialog>
     </div>
   );

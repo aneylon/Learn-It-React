@@ -11,24 +11,11 @@ import {
   Typography,
 } from "@mui/material";
 const apiUrl = process.env.REACT_APP_API;
-// const FlashCards = ({ id }) => {
 const FlashCards = () => {
   const { id } = useParams();
   const [cards, setCards] = useState([]);
   const [setInfo, setSetInfo] = useState({ name: "", subTitle: "" });
   const [selectedCard, setSelectedCard] = useState(0);
-  // get cards by set
-  function GetCardSet(setId) {
-    fetch(`${apiUrl}/cardSet/${setId}`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setCards(ShuffleCards(data.cards));
-        setSetInfo({ name: data.name, subTitle: data.subTitle });
-      })
-      .catch((error) => console.error("Error getting card set : ", error));
-  }
   function NextCard(result) {
     switch (result) {
       case "know":
@@ -59,6 +46,17 @@ const FlashCards = () => {
     return shuffledCards;
   }
   useEffect(() => {
+    const GetCardSet = (setId) => {
+      fetch(`${apiUrl}/cardSet/${setId}`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setCards(ShuffleCards(data.cards));
+          setSetInfo({ name: data.name, subTitle: data.subTitle });
+        })
+        .catch((error) => console.error("Error getting card set : ", error));
+    };
     GetCardSet(id);
   }, [id]);
   return (

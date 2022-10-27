@@ -8,7 +8,6 @@ import FlashCards from "./components/card/FlashCards";
 import Login from "./components/login/Login";
 import Profile from "./components/profile/Profile";
 import { useAuthContext } from "./hooks/useAuthContext";
-import { ProtectedRoute } from "./components/layout/ProtectedRoute";
 import Admin from "./components/admin/admin";
 
 function App() {

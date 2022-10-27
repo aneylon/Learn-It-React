@@ -19,8 +19,8 @@ export function authHeader(url) {
 
 // handle response - log out if unauthorized or forbidden
 export function handleResponse(response) {
-  throw new Error("Wut!?!?!");
   if (response.ok) return response.json();
+  throw new Error("Wut!?!?!");
 }
 // handle error - log to console and throw
 export function handleError(error) {
