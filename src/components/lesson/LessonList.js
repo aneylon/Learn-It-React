@@ -12,8 +12,12 @@ const LessonList = ({ subjectId }) => {
       })
       .catch((error) => console.error(error));
   }
+  const GetAllLessons = () => {
+    console.log("get all lessons");
+  };
   useEffect(() => {
-    GetLessonsFor(subjectId);
+    // GetLessonsFor(subjectId);
+    GetAllLessons();
   }, []);
   return (
     <div>
