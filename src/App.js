@@ -9,6 +9,8 @@ import Login from "./components/login/Login";
 import Profile from "./components/profile/Profile";
 import { useAuthContext } from "./hooks/useAuthContext";
 import Admin from "./components/admin/admin";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const { user } = useAuthContext();
@@ -36,6 +38,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      <ToastContainer position="bottom-center" autoClose={2000} />
     </div>
   );
 }

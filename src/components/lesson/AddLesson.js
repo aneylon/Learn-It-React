@@ -2,8 +2,7 @@ import { Button, FormGroup, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { request } from "../../api/apiUtilities";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 const apiUrl = process.env.REACT_APP_API;
 const AddLesson = () => {
   const [subjectList, setSubjectList] = useState([]);
@@ -23,7 +22,7 @@ const AddLesson = () => {
         if (response.ok === true && response.status === 200) {
           toast.success("Lesson Added.");
           reset();
-          // re fetch and render list?
+          // ToDo: re fetch and render list?
         } else {
           toast.error("Error Adding Lesson.");
         }
@@ -81,7 +80,6 @@ const AddLesson = () => {
           Add
         </Button>
       </form>
-      <ToastContainer />
     </div>
   );
 };
