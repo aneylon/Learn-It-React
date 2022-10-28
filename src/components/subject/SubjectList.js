@@ -15,6 +15,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { request } from "../../api/apiUtilities";
 const apiUrl = process.env.REACT_APP_API;
 const SubjectList = () => {
@@ -44,6 +45,11 @@ const SubjectList = () => {
   const ConfirmDelete = () => {
     request("delete", `${apiUrl}/subject/${itemToDelete}`, {})
       .then((response) => {
+        if (response.ok === true && response.status === 200) {
+          toast.success("Deleted item.");
+        } else {
+          toast.error("Unable to delete item.");
+        }
         return response.json();
       })
       .then((data) => {
@@ -72,6 +78,11 @@ const SubjectList = () => {
       subTitle: subTitleToEdit,
     })
       .then((response) => {
+        if (response.ok === true && response.status === 200) {
+          toast.success("Updated item.");
+        } else {
+          toast.error("Unable to update item.");
+        }
         return response.json();
       })
       .then((data) => {
