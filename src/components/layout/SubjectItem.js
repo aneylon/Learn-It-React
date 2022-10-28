@@ -10,9 +10,9 @@ const SubjectItem = ({ subject }) => {
   const [displayLessons, setDisplayLessons] = useState(false);
   const [lessons, setLessons] = useState([]);
   function LoadLessons(subjectId) {
-    fetch(`${apiUrl}/lessons?subjectId=${subjectId}`)
+    fetch(`${apiUrl}/lesson/subject/${subjectId}`)
       .then((response) => response.json())
-      .then((data) => setLessons(data))
+      .then((data) => setLessons(data.lessons))
       .catch((error) => console.error(error));
   }
   function ToggleLessons(subjectId) {
@@ -37,9 +37,9 @@ const SubjectItem = ({ subject }) => {
             return (
               <ListItemButton
                 component={Link}
-                to={`/flashCards/${lesson.id}`}
+                to={`/flashCards/${lesson._id}`}
                 sx={{ pl: 4 }}
-                key={lesson.id}
+                key={lesson._id}
               >
                 <ListItemText primary={lesson.title} title={lesson.subTitle} />
               </ListItemButton>
