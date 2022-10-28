@@ -1,52 +1,84 @@
+import { Button, FormGroup, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
+import { request } from "../../api/apiUtilities";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 const apiUrl = process.env.REACT_APP_API;
 const AddLesson = () => {
-  const { register, handleSubmit } = useForm();
+  const [subjectList, setSubjectList] = useState([]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+  });
   function AddNewLesson(data) {
-    fetch(`${apiUrl}/lessons`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
+    request("post", `${apiUrl}/lesson`, data)
       .then((response) => {
-        return response.json();
+        if (response.ok === true && response.status === 200) {
+          toast.success("Lesson Added.");
+          reset();
+          // ToDo: re fetch and render list?
+        } else {
+          toast.error("Error Adding Lesson.");
+        }
       })
-      .then((responseData) => {})
       .catch((error) => console.error(error));
   }
+  const GetSubjectList = () => {
+    request("get", `${apiUrl}/subject`, {})
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.subjects);
+        setSubjectList(data.subjects);
+      })
+      .catch(console.error);
+  };
+  useEffect(() => {
+    GetSubjectList();
+  }, []);
   return (
     <div>
-      Add Lesson
       <form onSubmit={handleSubmit(AddNewLesson)}>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          placeholder="title"
-          {...register("title", { required: true })}
-        />
-        <input
-          type="text"
-          name="subTitle"
-          id="subTitle"
-          placeholder="subTitle"
-          {...register("subTitle", { required: true })}
-        />
-        <input
-          type="number"
-          name="id"
-          id="id"
-          placeholder="id"
-          {...register("id", { required: true })}
-        />
-        <input
-          type="number"
-          name="subjectId"
-          id="subjectId"
-          placeholder="subjectId"
-          {...register("subjectId", { required: true })}
-        />
-        <input type="submit" value="Add" />
+        <FormGroup>
+          <TextField
+            label="Title"
+            error={!!errors.title}
+            helperText={errors.title ? errors.title.message : ""}
+            required
+            autoFocus
+            margin="dense"
+            {...register("title", { required: "Title is required." })}
+          />
+          <TextField
+            label="SubTitle"
+            error={!!errors.subTitle}
+            helperText={errors.subTitle ? errors.subTitle.message : ""}
+            required
+            autoFocus
+            margin="dense"
+            {...register("subTitle", { required: "SubTitle is required." })}
+          />
+          <TextField
+            label="SubjectId"
+            error={!!errors.subjectId}
+            helperText={errors.subjectId ? errors.subjectId.message : ""}
+            required
+            autoFocus
+            margin="dense"
+            {...register("subjectId", { required: "SubjectId is required." })}
+          />
+        </FormGroup>
+        <Button type="submit" variant="contained">
+          Add
+        </Button>
       </form>
     </div>
   );

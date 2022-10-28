@@ -1,25 +1,29 @@
 import { Button, FormGroup, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { request } from "../../api/apiUtilities";
+import { toast } from "react-toastify";
 const apiUrl = process.env.REACT_APP_API;
 const AddSubject = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     mode: "onChange",
     reValidateMode: "onChange",
   });
-  const AddNewSubject = async (data) => {
-    const response = await fetch(`${apiUrl}/subject`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    console.log(response);
-    // do something based on response?
-    // clear fields after success
-    // display error message if error
+  const AddNewSubject = (data) => {
+    request("post", `${apiUrl}/subject`, data)
+      .then((response) => {
+        if (response.ok === true && response.status === 200) {
+          toast.success("Subject Added.");
+          reset();
+        } else {
+          toast.error("Error Adding Subject");
+        }
+      })
+      .catch((error) => console.error);
   };
   return (
     <div>
