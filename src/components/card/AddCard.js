@@ -1,14 +1,29 @@
 import { useForm } from "react-hook-form";
+import { Button, FormGroup, TextField } from "@mui/material";
+import { request } from "../../api/apiUtilities";
+import { toast } from "react-toastify";
 const apiUrl = process.env.REACT_APP_API;
 const AddCard = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+    reValidateMode: "onChange",
+  });
   function AddNewCard(data) {
-    fetch(`${apiUrl}/cards`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
+    request("post", `${apiUrl}/card`, data)
+      .then((response) => {
+        if (response.ok === true && response.status === 200) {
+          toast.success("Card added.");
+          reset();
+        } else {
+          toast.error("Error Adding Card");
+        }
+        response.json();
+      })
       .then((data) => {
         console.log("added : ", data);
         reset();
@@ -19,23 +34,44 @@ const AddCard = () => {
     <div>
       Add Card
       <form onSubmit={handleSubmit(AddNewCard)}>
-        <input
-          type="text"
-          placeholder="question"
-          {...register("question", { required: true })}
-        />
-        <input
-          type="text"
-          placeholder="answer"
-          {...register("answer", { required: true })}
-        />
-        <input
-          type="text"
-          placeholder="explain"
-          {...register("explain", { required: true })}
-        />
-        {/* <input type="number" {...register("id", { required: true })} /> */}
-        <input type="submit" value="Add Card" />
+        <FormGroup>
+          <TextField
+            label="Question"
+            error={!!errors.question}
+            helperText={errors.question ? errors.question.message : ""}
+            required
+            autoFocus
+            margin="dense"
+            {...register("question", {
+              required: "Question is required.",
+            })}
+          />
+          <TextField
+            label="Answer"
+            error={!!errors.answer}
+            helperText={errors.answer ? errors.answer.message : ""}
+            required
+            autoFocus
+            margin="dense"
+            {...register("answer", {
+              required: "Answer is required.",
+            })}
+          />
+          <TextField
+            label="Explain"
+            error={!!errors.explain}
+            helperText={errors.explain ? errors.explain.message : ""}
+            required
+            autoFocus
+            margin="dense"
+            {...register("explain", {
+              required: "Explaination is required.",
+            })}
+          />
+        </FormGroup>
+        <Button type="submit" variant="contained">
+          Add
+        </Button>
       </form>
     </div>
   );
