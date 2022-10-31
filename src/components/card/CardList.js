@@ -38,7 +38,19 @@ const CardList = () => {
       });
   };
   const ConfirmEdit = () => {
-    console.log("change it up");
+    request("patch", `${apiUrl}/card/${itemToEdit}`, {
+      question: questionToEdit,
+      answer: answerToEdit,
+      explain: explainToEdit,
+    }).then((response) => {
+      if (response.ok === true && response.status === 200) {
+        toast.success("Updated item.");
+        GetAllCards();
+      } else {
+        toast.error("Unable to update item.");
+      }
+      setShowEditDialog(false);
+    });
   };
   const ConfirmDelete = () => {
     request("delete", `${apiUrl}/card/${itemToDelete}`, {})
@@ -55,7 +67,6 @@ const CardList = () => {
     setShowDeleteDialog(false);
   };
   const EditItem = (id) => {
-    console.log("edit", id);
     let item = cards.find((card) => card._id === id);
     setItemToEdit(id);
     setQuestionToEdit(item.question);
@@ -64,7 +75,6 @@ const CardList = () => {
     setShowEditDialog(true);
   };
   const DeleteItem = (id) => {
-    console.log("delete", id);
     setShowDeleteDialog(true);
     setItemToDelete(id);
   };
