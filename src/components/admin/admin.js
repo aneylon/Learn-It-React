@@ -12,6 +12,8 @@ import AddLesson from "../lesson/AddLesson";
 import LessonList from "../lesson/LessonList";
 import AddCard from "../card/AddCard";
 import CardList from "../card/CardList";
+import AddCardSet from "../cardSet/AddCardSet";
+import CardSetList from "../cardSet/CardSetList";
 const Admin = () => {
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 5, marginLeft: 15 }}>
@@ -64,6 +66,23 @@ const Admin = () => {
             <AccordionSummary>List</AccordionSummary>
             <AccordionDetails>
               <CardList />
+            </AccordionDetails>
+          </Accordion>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary>Card Set</AccordionSummary>
+        <AccordionDetails>
+          <Accordion>
+            <AccordionSummary>Add</AccordionSummary>
+            <AccordionDetails>
+              <AddCardSet />
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary>List</AccordionSummary>
+            <AccordionDetails>
+              <CardSetList />
             </AccordionDetails>
           </Accordion>
         </AccordionDetails>
