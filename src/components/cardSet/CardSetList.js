@@ -24,6 +24,27 @@ const CardSetList = () => {
   const [itemToDelete, setItemToDelete] = useState(null);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [nameError, setNameError] = useState(false);
+  const [subTitleError, setSubTitleError] = useState(false);
+  const [nameToEdit, setNameToEdit] = useState(null);
+  const [subTitleToEdit, setSubTitleToEdit] = useState(null);
+  const ConfirmEdit = () => {
+    request("patch", `${apiUrl}/cardSet/${itemToEdit}`, {
+      name: nameToEdit,
+      subTitle: subTitleToEdit,
+    })
+      .then((response) => {
+        if (response.ok === true && response.status === 200) {
+          toast.success("Item updated.");
+          GetAllCardSets();
+        } else {
+          toast.error("Unable to update item.");
+        }
+        return response.json();
+      })
+      .catch(console.error);
+    setShowEditDialog(false);
+  };
   const ConfirmDelete = () => {
     request("delete", `${apiUrl}/cardSet/${itemToDelete}`, {})
       .then((response) => {
@@ -43,8 +64,10 @@ const CardSetList = () => {
     setShowDeleteDialog(false);
   };
   const EditItem = (id) => {
-    console.log("editing", id);
+    let item = cardSets.find((cardSet) => cardSet._id === id);
     setItemToEdit(id);
+    setNameToEdit(item.name);
+    setSubTitleToEdit(item.subTitle);
     setShowEditDialog(true);
   };
   const CancelEdit = () => {
@@ -124,6 +147,64 @@ const CardSetList = () => {
         <DialogActions>
           <Button onClick={CancelDelete}>Cancel</Button>
           <Button onClick={ConfirmDelete}>Ok</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={showEditDialog} onClose={CancelEdit}>
+        <DialogTitle>Edit Item</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            placeholder="updated name"
+            label="Name"
+            type="text"
+            fullWidth
+            required
+            InputLabelProps={{ shrink: true }}
+            error={nameError}
+            helperText={nameError ? "Name Required." : ""}
+            onChange={(event) => {
+              let val = event.target.value;
+              setNameToEdit(val);
+              if (val.length <= 0) {
+                setNameError(true);
+              } else {
+                setNameError(false);
+              }
+            }}
+            value={nameToEdit}
+          />
+          <TextField
+            margin="dense"
+            placeholder="updated subtitle"
+            label="SubTitle"
+            name="subTitle"
+            type="text"
+            fullWidth
+            required
+            InputLabelProps={{ shrink: true }}
+            error={subTitleError}
+            helperText={subTitleError ? "SubTitle Required." : ""}
+            onChange={(event) => {
+              let val = event.target.value;
+              setSubTitleToEdit(val);
+              if (val.length <= 0) {
+                setSubTitleError(true);
+              } else {
+                setSubTitleError(false);
+              }
+            }}
+            value={subTitleToEdit}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={CancelEdit}>Cancel</Button>
+          <Button
+            onClick={ConfirmEdit}
+            disabled={nameError === true || subTitleError === true}
+          >
+            Update
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
