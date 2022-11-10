@@ -22,7 +22,7 @@ const AddCard = () => {
         } else {
           toast.error("Error Adding Card");
         }
-        response.json();
+        return response.json();
       })
       .then((data) => {
         console.log("added : ", data);
