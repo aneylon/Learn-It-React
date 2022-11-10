@@ -14,7 +14,6 @@ const AddCardSet = () => {
     reValidateMode: "onChange",
   });
   const AddNewCardSet = (data) => {
-    console.log(data);
     request("post", `${apiUrl}/cardSet`, data)
       .then((response) => {
         if (response.ok === true && response.status === 200) {
@@ -26,7 +25,6 @@ const AddCardSet = () => {
         return response.json();
       })
       .then((data) => {
-        console.log("added : ", data);
         reset();
       })
       .catch((error) => console.error(error));
