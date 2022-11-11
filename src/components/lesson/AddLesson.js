@@ -1,7 +1,7 @@
-import { Button, FormGroup, TextField } from "@mui/material";
+import { Autocomplete, Button, FormGroup, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { request } from "../../api/apiUtilities";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 const apiUrl = process.env.REACT_APP_API;
 const AddLesson = () => {
@@ -12,11 +12,15 @@ const AddLesson = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    control,
   } = useForm({
-    mode: "onSubmit",
+    mode: "onChange",
     reValidateMode: "onChange",
   });
   function AddNewLesson(data) {
+    console.log(data);
+    data = { subjectId: data.subject.value, ...data };
+    console.log(data);
     request("post", `${apiUrl}/lesson`, data)
       .then((response) => {
         if (response.ok === true && response.status === 200) {
@@ -35,7 +39,10 @@ const AddLesson = () => {
         return response.json();
       })
       .then((data) => {
-        setSubjectList(data.subjects);
+        let subjects = data.subjects.map((item) => {
+          return { label: item.title, value: item._id };
+        });
+        setSubjectList(subjects);
       })
       .catch(console.error);
   };
@@ -64,14 +71,31 @@ const AddLesson = () => {
             margin="dense"
             {...register("subTitle", { required: "SubTitle is required." })}
           />
-          <TextField
-            label="SubjectId"
-            error={!!errors.subjectId}
-            helperText={errors.subjectId ? errors.subjectId.message : ""}
-            required
-            autoFocus
-            margin="dense"
-            {...register("subjectId", { required: "SubjectId is required." })}
+          <Controller
+            control={control}
+            name="subject"
+            rules={{ required: "Lessons are required to have a Subject." }}
+            render={({ field: { onChange, value, ref } }) => (
+              <Autocomplete
+                // disablePortal
+                onChange={(event, item) => {
+                  onChange(item);
+                }}
+                // value={value}
+                options={subjectList}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    required
+                    margin="dense"
+                    label="Subject"
+                    placeholder="Subject"
+                    error={!!errors.subject}
+                    helperText={errors.subject ? errors.subject.message : ""}
+                  />
+                )}
+              />
+            )}
           />
         </FormGroup>
         <Button type="submit" variant="contained">
