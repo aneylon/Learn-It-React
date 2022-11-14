@@ -21,6 +21,7 @@ import { request } from "../../api/apiUtilities";
 let apiUrl = process.env.REACT_APP_API;
 const LessonList = ({ subjectId }) => {
   const [lessons, setLessons] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [itemToEdit, setItemToEdit] = useState(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -85,6 +86,16 @@ const LessonList = ({ subjectId }) => {
       })
       .catch(console.error);
   };
+  const GetAllSubjects = () => {
+    request("get", `${apiUrl}/subject`, {})
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setSubjects(data.subjects);
+      })
+      .catch(console.error);
+  };
   const EditItem = (id) => {
     let item = lessons.find((lesson) => lesson._id === id);
     setItemToEdit(id);
@@ -99,6 +110,7 @@ const LessonList = ({ subjectId }) => {
   };
   useEffect(() => {
     GetAllLessons();
+    GetAllSubjects();
   }, []);
   return (
     <div>
@@ -116,11 +128,14 @@ const LessonList = ({ subjectId }) => {
           {lessons.length > 0 && (
             <TableBody>
               {lessons.map((lesson) => {
+                let subject = subjects.find(
+                  (item) => item._id === lesson.subjectId
+                );
                 return (
                   <TableRow key={lesson._id}>
                     <TableCell>{lesson.title}</TableCell>
                     <TableCell>{lesson.subTitle}</TableCell>
-                    <TableCell>{lesson.subjectId}</TableCell>
+                    <TableCell>{subject.title}</TableCell>
                     <TableCell align="center">
                       <Button
                         onClick={() => {
