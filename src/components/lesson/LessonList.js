@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 import { request } from "../../api/apiUtilities";
 
 let apiUrl = process.env.REACT_APP_API;
-const LessonList = ({ subjectId }) => {
+const LessonList = () => {
   const [lessons, setLessons] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [subjectsDropDownList, setSubjectsDropDownList] = useState([]);
@@ -30,10 +30,8 @@ const LessonList = ({ subjectId }) => {
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [titleError, setTitleError] = useState(false);
   const [subTitleError, setSubTitleError] = useState(false);
-  const [subjectIdError, setSubjectIdError] = useState(false);
   const [titleToEdit, setTitleToEdit] = useState(null);
   const [subTitleToEdit, setSubTitleToEdit] = useState(null);
-  const [subjectIdToEdit, setSubjectIdToEdit] = useState(null);
   const [subjectToEdit, setSubjectToEdit] = useState(null);
 
   const ConfirmDelete = () => {
@@ -109,7 +107,6 @@ const LessonList = ({ subjectId }) => {
     setItemToEdit(id);
     setTitleToEdit(item.title);
     setSubTitleToEdit(item.subTitle);
-    setSubjectIdToEdit(item.subjectId);
     setSubjectToEdit(
       subjectsDropDownList.find((subject) => subject.value === item.subjectId)
     );
@@ -231,28 +228,6 @@ const LessonList = ({ subjectId }) => {
             }}
             value={subTitleToEdit}
           />
-          <TextField
-            margin="dense"
-            placeholder="updated subtitle"
-            label="Subject"
-            name="subjectId"
-            type="text"
-            fullWidth
-            required
-            InputLabelProps={{ shrink: true }}
-            error={subjectIdError}
-            helperText={subjectIdError ? "SubjectId Required." : ""}
-            onChange={(event) => {
-              let val = event.target.value;
-              setSubjectIdToEdit(val);
-              if (val.length <= 0) {
-                setSubjectIdError(true);
-              } else {
-                setSubjectIdError(false);
-              }
-            }}
-            value={subjectIdToEdit}
-          />
           <Autocomplete
             disableClearable
             onChange={(event, item) => {
@@ -275,11 +250,7 @@ const LessonList = ({ subjectId }) => {
           <Button onClick={CancelEdit}>Cancel</Button>
           <Button
             onClick={ConfirmEdit}
-            disabled={
-              titleError === true ||
-              subTitleError === true ||
-              subjectIdError === true
-            }
+            disabled={titleError === true || subTitleError === true}
           >
             Update
           </Button>
