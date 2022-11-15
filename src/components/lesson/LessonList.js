@@ -34,6 +34,7 @@ const LessonList = ({ subjectId }) => {
   const [titleToEdit, setTitleToEdit] = useState(null);
   const [subTitleToEdit, setSubTitleToEdit] = useState(null);
   const [subjectIdToEdit, setSubjectIdToEdit] = useState(null);
+  const [subjectToEdit, setSubjectToEdit] = useState(null);
 
   const ConfirmDelete = () => {
     request("delete", `${apiUrl}/lesson/${itemToDelete}`, {})
@@ -57,7 +58,7 @@ const LessonList = ({ subjectId }) => {
     request("patch", `${apiUrl}/lesson/${itemToEdit}`, {
       title: titleToEdit,
       subTitle: subTitleToEdit,
-      subjectId: subjectIdToEdit,
+      subjectId: subjectToEdit.value,
     })
       .then((response) => {
         if (response.ok === true && response.status === 200) {
@@ -109,6 +110,9 @@ const LessonList = ({ subjectId }) => {
     setTitleToEdit(item.title);
     setSubTitleToEdit(item.subTitle);
     setSubjectIdToEdit(item.subjectId);
+    setSubjectToEdit(
+      subjectsDropDownList.find((subject) => subject.value === item.subjectId)
+    );
     setShowEditDialog(true);
   };
   const DeleteItem = (id) => {
@@ -250,11 +254,11 @@ const LessonList = ({ subjectId }) => {
             value={subjectIdToEdit}
           />
           <Autocomplete
-            // disablePortal
+            disableClearable
             onChange={(event, item) => {
-              console.log(event, item);
+              setSubjectToEdit(item);
             }}
-            value={subjectIdToEdit} //
+            value={subjectToEdit}
             options={subjectsDropDownList}
             renderInput={(params) => (
               <TextField
@@ -263,8 +267,6 @@ const LessonList = ({ subjectId }) => {
                 margin="dense"
                 label="Subject"
                 placeholder="Subject"
-                // error={!!errors.subject}
-                // helperText={errors.subject ? errors.subject.message : ""}
               />
             )}
           />
