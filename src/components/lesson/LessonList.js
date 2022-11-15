@@ -13,6 +13,7 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
+  Autocomplete,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -22,6 +23,7 @@ let apiUrl = process.env.REACT_APP_API;
 const LessonList = ({ subjectId }) => {
   const [lessons, setLessons] = useState([]);
   const [subjects, setSubjects] = useState([]);
+  const [subjectsDropDownList, setSubjectsDropDownList] = useState([]);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [itemToEdit, setItemToEdit] = useState(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -32,6 +34,7 @@ const LessonList = ({ subjectId }) => {
   const [titleToEdit, setTitleToEdit] = useState(null);
   const [subTitleToEdit, setSubTitleToEdit] = useState(null);
   const [subjectIdToEdit, setSubjectIdToEdit] = useState(null);
+  const [subjectToEdit, setSubjectToEdit] = useState(null);
 
   const ConfirmDelete = () => {
     request("delete", `${apiUrl}/lesson/${itemToDelete}`, {})
@@ -55,7 +58,7 @@ const LessonList = ({ subjectId }) => {
     request("patch", `${apiUrl}/lesson/${itemToEdit}`, {
       title: titleToEdit,
       subTitle: subTitleToEdit,
-      subjectId: subjectIdToEdit,
+      subjectId: subjectToEdit.value,
     })
       .then((response) => {
         if (response.ok === true && response.status === 200) {
@@ -93,6 +96,11 @@ const LessonList = ({ subjectId }) => {
       })
       .then((data) => {
         setSubjects(data.subjects);
+        setSubjectsDropDownList(
+          data.subjects.map((item) => {
+            return { label: item.title, value: item._id };
+          })
+        );
       })
       .catch(console.error);
   };
@@ -102,6 +110,9 @@ const LessonList = ({ subjectId }) => {
     setTitleToEdit(item.title);
     setSubTitleToEdit(item.subTitle);
     setSubjectIdToEdit(item.subjectId);
+    setSubjectToEdit(
+      subjectsDropDownList.find((subject) => subject.value === item.subjectId)
+    );
     setShowEditDialog(true);
   };
   const DeleteItem = (id) => {
@@ -241,6 +252,23 @@ const LessonList = ({ subjectId }) => {
               }
             }}
             value={subjectIdToEdit}
+          />
+          <Autocomplete
+            disableClearable
+            onChange={(event, item) => {
+              setSubjectToEdit(item);
+            }}
+            value={subjectToEdit}
+            options={subjectsDropDownList}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                required
+                margin="dense"
+                label="Subject"
+                placeholder="Subject"
+              />
+            )}
           />
         </DialogContent>
         <DialogActions>
