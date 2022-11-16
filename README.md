@@ -35,24 +35,29 @@ PORT = 4242 # If you want to run the front end on a different port besides the d
 
 - [x] Flash cards
 
+  - [ ] Navigate to flash cards from lesson list
   - [ ] Save user responses
 
+- [x] Admin section
+
+  - [x] add
+  - [x] update
+  - [x] delete
+  - [ ] add / update cards in card set
+
 - [x] Loading component
-
   - [x] spinner icon / gif
-
-- [ ] Admin section
-  - [ ] add / update / delete
 - [x] User auth
 
-  - [ ] Change route on signin / signup success
+  - [x] Change route on signin / signup success
+  - [ ] Fix navigating to home on refresh
   - [ ] Remember username
-  - [ ] Hide show relevant links
-  - [ ] ToDo list
+  - [x] Hide show relevant links
 
-- [ ] Fetch wrapper
+- [x] Fetch wrapper
 - [ ] Error handling
 
+- [ ] ToDo list
 - [ ] Multiple Choice
 
 - [x] Subjects
