@@ -143,7 +143,7 @@ const LessonList = () => {
                   <TableRow key={lesson._id}>
                     <TableCell>{lesson.title}</TableCell>
                     <TableCell>{lesson.subTitle}</TableCell>
-                    <TableCell>{subject.title}</TableCell>
+                    <TableCell>{subject.title ?? ""}</TableCell>
                     <TableCell align="center">
                       <Button
                         onClick={() => {
