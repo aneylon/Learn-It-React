@@ -141,8 +141,8 @@ const LessonList = () => {
                 );
                 return (
                   <TableRow key={lesson._id}>
-                    <TableCell>{lesson.title}</TableCell>
-                    <TableCell>{lesson.subTitle}</TableCell>
+                    <TableCell>{lesson.title ?? ""}</TableCell>
+                    <TableCell>{lesson.subTitle ?? ""}</TableCell>
                     <TableCell>{subject.title ?? ""}</TableCell>
                     <TableCell align="center">
                       <Button

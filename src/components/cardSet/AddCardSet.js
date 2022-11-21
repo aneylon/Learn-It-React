@@ -17,6 +17,7 @@ const AddCardSet = () => {
     reValidateMode: "onChange",
   });
   const AddNewCardSet = (data) => {
+    data.cards = [data.card.value];
     request("post", `${apiUrl}/cardSet`, data)
       .then((response) => {
         if (response.ok === true && response.status === 200) {

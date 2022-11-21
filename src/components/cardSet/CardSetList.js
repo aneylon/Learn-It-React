@@ -103,6 +103,7 @@ const CardSetList = () => {
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>SubTitle</TableCell>
+              <TableCell>Number of Cards</TableCell>
               <TableCell align="center">Edit</TableCell>
               <TableCell align="right">Delete</TableCell>
             </TableRow>
@@ -113,6 +114,7 @@ const CardSetList = () => {
                 <TableRow key={cardSet._id}>
                   <TableCell>{cardSet.name}</TableCell>
                   <TableCell>{cardSet.subTitle}</TableCell>
+                  <TableCell>{cardSet.cards.length}</TableCell>
                   <TableCell align="center">
                     <Button
                       onClick={() => {
