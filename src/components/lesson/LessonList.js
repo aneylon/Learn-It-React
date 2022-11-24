@@ -122,53 +122,58 @@ const LessonList = () => {
   }, []);
   return (
     <div>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Title</TableCell>
-              <TableCell>SubTitle</TableCell>
-              <TableCell>Subject</TableCell>
-              <TableCell align="center">Edit</TableCell>
-              <TableCell align="right">Delete</TableCell>
-            </TableRow>
-          </TableHead>
-          {lessons.length > 0 && (
-            <TableBody>
-              {lessons.map((lesson) => {
-                let subject = subjects.find(
-                  (item) => item._id === lesson.subjectId
-                );
-                return (
-                  <TableRow key={lesson._id}>
-                    <TableCell>{lesson.title ?? ""}</TableCell>
-                    <TableCell>{lesson.subTitle ?? ""}</TableCell>
-                    <TableCell>{subject.title ?? ""}</TableCell>
-                    <TableCell align="center">
-                      <Button
-                        onClick={() => {
-                          EditItem(lesson._id);
-                        }}
-                      >
-                        Edit
-                      </Button>
-                    </TableCell>
-                    <TableCell align="right">
-                      <Button
-                        onClick={() => {
-                          DeleteItem(lesson._id);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          )}
-        </Table>
-      </TableContainer>
+      {lessons !== null &&
+        lessons !== undefined &&
+        subjects !== null &&
+        subjects !== undefined && (
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Title</TableCell>
+                  <TableCell>SubTitle</TableCell>
+                  <TableCell>Subject</TableCell>
+                  <TableCell align="center">Edit</TableCell>
+                  <TableCell align="right">Delete</TableCell>
+                </TableRow>
+              </TableHead>
+              {lessons.length > 0 && (
+                <TableBody>
+                  {lessons.map((lesson) => {
+                    let subject = subjects.find(
+                      (item) => item._id === lesson.subjectId
+                    );
+                    return (
+                      <TableRow key={lesson._id}>
+                        <TableCell>{lesson.title ?? ""}</TableCell>
+                        <TableCell>{lesson.subTitle ?? ""}</TableCell>
+                        <TableCell>{subject.title ?? ""}</TableCell>
+                        <TableCell align="center">
+                          <Button
+                            onClick={() => {
+                              EditItem(lesson._id);
+                            }}
+                          >
+                            Edit
+                          </Button>
+                        </TableCell>
+                        <TableCell align="right">
+                          <Button
+                            onClick={() => {
+                              DeleteItem(lesson._id);
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              )}
+            </Table>
+          </TableContainer>
+        )}
       <Dialog open={showDeleteDialog} onClose={CancelDelete}>
         <DialogTitle>Delete Item?</DialogTitle>
         <DialogContent>
