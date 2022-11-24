@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 const apiUrl = process.env.REACT_APP_API;
 const AddLesson = () => {
   const [subjectList, setSubjectList] = useState([]);
+  const [cardSetList, setCardSetList] = useState([]);
 
   const {
     register,
@@ -19,7 +20,12 @@ const AddLesson = () => {
   });
   function AddNewLesson(data) {
     console.log(data);
-    data = { subjectId: data.subject.value, ...data };
+    data = {
+      subjectId: data.subject.value,
+      cardSetId: data.cardSetId.value,
+      title: data.title,
+      subTitle: data.subTitle,
+    };
     console.log(data);
     request("post", `${apiUrl}/lesson`, data)
       .then((response) => {
@@ -46,8 +52,22 @@ const AddLesson = () => {
       })
       .catch(console.error);
   };
+  const GetCardSetList = () => {
+    request("get", `${apiUrl}/cardSet`, {})
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        let cardSets = data.cardSets.map((item) => {
+          return { label: item.name, value: item._id };
+        });
+        setCardSetList(cardSets);
+      })
+      .catch(console.error);
+  };
   useEffect(() => {
     GetSubjectList();
+    GetCardSetList();
   }, []);
   return (
     <div>
@@ -77,11 +97,9 @@ const AddLesson = () => {
             rules={{ required: "Lessons are required to have a Subject." }}
             render={({ field: { onChange, value, ref } }) => (
               <Autocomplete
-                // disablePortal
                 onChange={(event, item) => {
                   onChange(item);
                 }}
-                // value={value}
                 options={subjectList}
                 renderInput={(params) => (
                   <TextField
@@ -92,6 +110,32 @@ const AddLesson = () => {
                     placeholder="Subject"
                     error={!!errors.subject}
                     helperText={errors.subject ? errors.subject.message : ""}
+                  />
+                )}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="cardSetId"
+            rules={{ required: "A Card Set is required for a lesson." }}
+            render={({ field: { onChange } }) => (
+              <Autocomplete
+                onChange={(event, item) => {
+                  onChange(item);
+                }}
+                options={cardSetList}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    required
+                    margin="dense"
+                    label="Card Set"
+                    placeholder="Card Set"
+                    error={!!errors.cardSetId}
+                    helperText={
+                      errors.cardSetId ? errors.cardSetId.message : ""
+                    }
                   />
                 )}
               />

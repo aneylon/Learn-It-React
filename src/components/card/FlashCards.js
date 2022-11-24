@@ -52,8 +52,12 @@ const FlashCards = () => {
           return response.json();
         })
         .then((data) => {
-          setCards(ShuffleCards(data.cards));
-          setSetInfo({ name: data.name, subTitle: data.subTitle });
+          console.log(data.cardSet);
+          setCards(ShuffleCards(data.cardSet.cards));
+          setSetInfo({
+            name: data.cardSet.name,
+            subTitle: data.cardSet.subTitle,
+          });
         })
         .catch((error) => console.error("Error getting card set : ", error));
     };

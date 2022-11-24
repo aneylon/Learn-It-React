@@ -23,7 +23,9 @@ let apiUrl = process.env.REACT_APP_API;
 const LessonList = () => {
   const [lessons, setLessons] = useState([]);
   const [subjects, setSubjects] = useState([]);
+  const [cardSets, setCardSets] = useState([]);
   const [subjectsDropDownList, setSubjectsDropDownList] = useState([]);
+  const [cardSetsDropDownList, setCardSetsDropDownList] = useState([]);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [itemToEdit, setItemToEdit] = useState(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -102,6 +104,20 @@ const LessonList = () => {
       })
       .catch(console.error);
   };
+  const GetAllCardSets = () => {
+    request("get", `${apiUrl}/cardSet`, {})
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setCardSets(data.cardSets);
+        setCardSetsDropDownList(
+          data.cardSets.map((item) => {
+            return { label: item.name, value: item._id };
+          })
+        );
+      });
+  };
   const EditItem = (id) => {
     let item = lessons.find((lesson) => lesson._id === id);
     setItemToEdit(id);
@@ -119,13 +135,16 @@ const LessonList = () => {
   useEffect(() => {
     GetAllLessons();
     GetAllSubjects();
+    GetAllCardSets();
   }, []);
   return (
     <div>
       {lessons !== null &&
         lessons !== undefined &&
         subjects !== null &&
-        subjects !== undefined && (
+        subjects !== undefined &&
+        cardSets !== null &&
+        cardSets !== undefined && (
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -133,6 +152,7 @@ const LessonList = () => {
                   <TableCell>Title</TableCell>
                   <TableCell>SubTitle</TableCell>
                   <TableCell>Subject</TableCell>
+                  <TableCell>Card Set</TableCell>
                   <TableCell align="center">Edit</TableCell>
                   <TableCell align="right">Delete</TableCell>
                 </TableRow>
@@ -143,11 +163,16 @@ const LessonList = () => {
                     let subject = subjects.find(
                       (item) => item._id === lesson.subjectId
                     );
+                    console.log(cardSets);
+                    // let cardSet = cardSets.find(
+                    //   (item) => item._id === lesson.cardSetId
+                    // );
                     return (
                       <TableRow key={lesson._id}>
                         <TableCell>{lesson.title ?? ""}</TableCell>
                         <TableCell>{lesson.subTitle ?? ""}</TableCell>
                         <TableCell>{subject.title ?? ""}</TableCell>
+                        {/* <TableCell>{cardSet.name ?? ""}</TableCell> */}
                         <TableCell align="center">
                           <Button
                             onClick={() => {
