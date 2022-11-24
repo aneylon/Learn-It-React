@@ -35,6 +35,7 @@ const LessonList = () => {
   const [titleToEdit, setTitleToEdit] = useState(null);
   const [subTitleToEdit, setSubTitleToEdit] = useState(null);
   const [subjectToEdit, setSubjectToEdit] = useState(null);
+  const [cardSetToEdit, setCardSetToEdit] = useState(null);
 
   const ConfirmDelete = () => {
     request("delete", `${apiUrl}/lesson/${itemToDelete}`, {})
@@ -59,6 +60,7 @@ const LessonList = () => {
       title: titleToEdit,
       subTitle: subTitleToEdit,
       subjectId: subjectToEdit.value,
+      cardSetId: cardSetToEdit.value,
     })
       .then((response) => {
         if (response.ok === true && response.status === 200) {
@@ -126,6 +128,9 @@ const LessonList = () => {
     setSubjectToEdit(
       subjectsDropDownList.find((subject) => subject.value === item.subjectId)
     );
+    setCardSetToEdit(
+      cardSetsDropDownList.find((cardSet) => cardSet.value === item.cardSetId)
+    );
     setShowEditDialog(true);
   };
   const DeleteItem = (id) => {
@@ -163,16 +168,15 @@ const LessonList = () => {
                     let subject = subjects.find(
                       (item) => item._id === lesson.subjectId
                     );
-                    console.log(cardSets);
-                    // let cardSet = cardSets.find(
-                    //   (item) => item._id === lesson.cardSetId
-                    // );
+                    let cardSet = cardSets.find(
+                      (item) => item._id === lesson.cardSetId
+                    );
                     return (
                       <TableRow key={lesson._id}>
                         <TableCell>{lesson.title ?? ""}</TableCell>
                         <TableCell>{lesson.subTitle ?? ""}</TableCell>
                         <TableCell>{subject.title ?? ""}</TableCell>
-                        {/* <TableCell>{cardSet.name ?? ""}</TableCell> */}
+                        <TableCell>{cardSet.name ?? ""}</TableCell>
                         <TableCell align="center">
                           <Button
                             onClick={() => {
@@ -272,6 +276,23 @@ const LessonList = () => {
                 margin="dense"
                 label="Subject"
                 placeholder="Subject"
+              />
+            )}
+          />
+          <Autocomplete
+            disableClearable
+            onChange={(event, item) => {
+              setCardSetToEdit(item);
+            }}
+            value={cardSetToEdit}
+            options={cardSetsDropDownList}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                required
+                margin="dense"
+                label="Card Set"
+                placeholder="Card Set"
               />
             )}
           />
