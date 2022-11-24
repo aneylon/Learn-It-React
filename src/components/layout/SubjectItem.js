@@ -37,7 +37,7 @@ const SubjectItem = ({ subject }) => {
             return (
               <ListItemButton
                 component={Link}
-                to={`/flashCards/${lesson._id}`}
+                to={`/flashCards/${lesson.cardSetId}`}
                 sx={{ pl: 4 }}
                 key={lesson._id}
               >
