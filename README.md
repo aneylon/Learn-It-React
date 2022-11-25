@@ -31,11 +31,11 @@ PORT = 4242 # If you want to run the front end on a different port besides the d
 
 # Todo
 
-## Sections
-
+- [ ] User Profile
+  - [ ] Get and show user info
 - [x] Flash cards
 
-  - [ ] Navigate to flash cards from lesson list
+  - [x] Navigate to flash cards from lesson list
   - [ ] Save user responses
 
 - [x] Admin section
